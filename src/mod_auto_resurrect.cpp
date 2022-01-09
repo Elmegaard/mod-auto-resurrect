@@ -8,10 +8,10 @@
 #include "Chat.h"
 
 // Add player scripts
-class MyPlayer : public PlayerScript
+class AutoResurrect : public PlayerScript
 {
 public:
-    MyPlayer() : PlayerScript("MyPlayer") { }
+    AutoResurrect() : PlayerScript("AutoResurrect") { }
 
     void OnLogin(Player* player) override
     {
@@ -23,7 +23,7 @@ public:
 };
 
 // Add all scripts in one
-void AddMyPlayerScripts()
+void AddAutoResurrectScripts()
 {
-    new MyPlayer();
+    new AutoResurrect();
 }
