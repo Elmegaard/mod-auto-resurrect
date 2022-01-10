@@ -1,28 +1,22 @@
-# MY_NEW_MODULE
+# Auto Resurrect
 
 ## Description
 
-This module allows to do this and this.
+This mod allows players to automatically resurrect at the start of an instance or raid when releasing their spirit.
 
 ## Requirements
 
-My_new_module requires:
-
--   AzerothCore v4.0.0+
+- AzerothCore v4.0.0+
 
 ## Installation
 
 ```
 1) Simply `git clone` the module under the `modules` directory of your AzerothCore source or copy paste it manually.
-2) Import the SQL manually to the right Database (auth, world or characters) or with the `db_assembler.sh` (if `include.sh` provided).
-3) Re-run cmake and launch a clean build of AzerothCore.
+2) Re-run cmake and launch a clean build of AzerothCore.
+3) Go to your server configuration directory (where your `worldserver` or `worldserver.exe` is), copy `mod-auto-resurrect.conf.dist` to `mod-auto-resurrect.conf` and edit that new file
 ```
-
-## Edit the module's configuration (optional)
-
-If you need to change the module configuration, go to your server configuration directory (where your `worldserver` or `worldserver.exe` is), copy `my_module.conf.dist` to `my_module.conf` and edit that new file.
 
 ## Credits
 
--   [Me](https://github.com/YOUR_GITHUB_NAME) (author of the module): Check out my soundcloud - Join my discord
--   AzerothCore: [repository](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
+- [Elmegaard](https://github.com/Elmegaard) (author of the module)
+- AzerothCore: [repository](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
