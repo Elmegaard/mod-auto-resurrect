@@ -11,8 +11,13 @@
 class AutoResurrect : public PlayerScript
 {
 public:
-    AutoResurrect() : PlayerScript("AutoResurrect") { }
-    std::map<int, const AreaTriggerTeleport*> playerLocation = {};
+    AutoResurrect()
+        : PlayerScript("AutoResurrect", {
+            PLAYERHOOK_ON_LOGIN,
+            PLAYERHOOK_ON_PLAYER_RELEASED_GHOST,
+            PLAYERHOOK_ON_MAP_CHANGED,
+        }) { }
+    std::map<uint32, const AreaTriggerTeleport*> playerLocation = {};
 
     void DebugLog(Player* player, std::string log) {
         if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false)) {
@@ -20,7 +25,7 @@ public:
         }
     }
 
-    void OnLogin(Player* player) override
+    void OnPlayerLogin(Player* player) override
     {
         if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false))
         {
@@ -45,20 +50,20 @@ public:
             (raids && !map->IsHeroic() && map->IsRaid()) ||
             (heroicRaids && map->IsHeroic() && map->IsRaid())) {
             AreaTriggerTeleport const* at = sObjectMgr->GetMapEntranceTrigger(player->GetMapId());
-            playerLocation[player->GetGUID()] = at;
+            playerLocation[player->GetGUID().GetCounter()] = at;
         }
     }
 
-    virtual void OnMapChanged(Player* player) override {
+    virtual void OnPlayerMapChanged(Player* player) override {
         if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false)) {
             return;
         }
 
-        if (!playerLocation.count(player->GetGUID())) {
+        if (!playerLocation.count(player->GetGUID().GetCounter())) {
             return;
         }
 
-        AreaTriggerTeleport const* at = playerLocation[player->GetGUID()];
+        AreaTriggerTeleport const* at = playerLocation[player->GetGUID().GetCounter()];
         if (at == NULL) {
             return;
         }
@@ -67,7 +72,7 @@ public:
         player->TeleportTo(at->target_mapId, at->target_X, at->target_Y, at->target_Z, at->target_Orientation);
         player->SaveToDB(false, false);
 
-        playerLocation[player->GetGUID()] = NULL;
+        playerLocation[player->GetGUID().GetCounter()] = NULL;
     }
 };
 
