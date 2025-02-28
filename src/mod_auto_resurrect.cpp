@@ -20,7 +20,7 @@ public:
         }
     }
 
-    void OnLogin(Player* player) override
+    void OnLogin(Player* player)
     {
         if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false))
         {
@@ -49,24 +49,28 @@ public:
         }
     }
 
-    virtual void OnMapChanged(Player* player) override {
-        if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false)) {
+    void OnMapChanged(Player* player)
+    {
+        if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false))
+        {
             return;
         }
-
-        if (!playerLocation.count(player->GetGUID())) {
+    
+        if (!playerLocation.count(player->GetGUID()))
+        {
             return;
         }
-
+    
         AreaTriggerTeleport const* at = playerLocation[player->GetGUID()];
-        if (at == NULL) {
+        if (at == NULL)
+        {
             return;
         }
-
+    
         player->ResurrectPlayer(1.0f);
         player->TeleportTo(at->target_mapId, at->target_X, at->target_Y, at->target_Z, at->target_Orientation);
         player->SaveToDB(false, false);
-
+    
         playerLocation[player->GetGUID()] = NULL;
     }
 };
