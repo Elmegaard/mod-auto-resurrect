@@ -8,34 +8,25 @@
 #include "Chat.h"
 
 // Add player scripts
-class AutoResurrect : public PlayerScript
-{
+class AutoResurrect : public PlayerScript {
 public:
   AutoResurrect() : PlayerScript("AutoResurrect") {}
-  std::map<int,
-           const AreaTriggerTeleport *>
-      playerLocation = {};
+  std::map<int, const AreaTriggerTeleport *> playerLocation = {};
 
-  void DebugLog(Player *player, std::string log)
-  {
-    if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false))
-    {
+  void DebugLog(Player *player, std::string log) {
+    if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false)) {
       ChatHandler(player->GetSession()).SendSysMessage(log);
     }
   }
 
-  void OnLogin(Player *player)
-  {
-    if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false))
-    {
+  void OnLogin(Player *player) {
+    if (sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false) && sConfigMgr->GetOption<bool>("AutoResurrect.Notification", false)) {
       DebugLog(player, "Auto Resurrect module enabled");
     }
   }
 
-  void OnPlayerReleasedGhost(Player *player) override
-  {
-    if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false))
-    {
+  void OnPlayerReleasedGhost(Player *player) override {
+    if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false)) {
       return;
     }
 
@@ -49,28 +40,23 @@ public:
     if ((dungeons && !map->IsHeroic() && map->IsDungeon()) ||
         (heroics && map->IsHeroic() && map->IsDungeon()) ||
         (raids && !map->IsHeroic() && map->IsRaid()) ||
-        (heroicRaids && map->IsHeroic() && map->IsRaid()))
-    {
+        (heroicRaids && map->IsHeroic() && map->IsRaid())) {
       AreaTriggerTeleport const *at = sObjectMgr->GetMapEntranceTrigger(player->GetMapId());
       playerLocation[player->GetGUID()] = at;
     }
   }
 
-  void OnMapChanged(Player *player)
-  {
-    if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false))
-    {
+  void OnMapChanged(Player *player) {
+    if (!sConfigMgr->GetOption<bool>("AutoResurrect.Enable", false)) {
       return;
     }
 
-    if (!playerLocation.count(player->GetGUID()))
-    {
+    if (!playerLocation.count(player->GetGUID())) {
       return;
     }
 
     AreaTriggerTeleport const *at = playerLocation[player->GetGUID()];
-    if (at == NULL)
-    {
+    if (at == NULL) {
       return;
     }
 
@@ -83,7 +69,6 @@ public:
 };
 
 // Add all scripts in one
-void AddAutoResurrectScripts()
-{
+void AddAutoResurrectScripts() {
   new AutoResurrect();
 }
