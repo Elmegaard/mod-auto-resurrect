@@ -3,11 +3,8 @@
  */
 
 #include "ScriptMgr.h"
-
 #include "Player.h"
-
 #include "Config.h"
-
 #include "Chat.h"
 
 // Add player scripts
