@@ -65,7 +65,7 @@ class AutoResurrect: public PlayerScript {
       return;
     }
 
-    player -> ResurrectPlayer(1.0 f);
+    player -> ResurrectPlayer(1.0f);
     player -> TeleportTo(at -> target_mapId, at -> target_X, at -> target_Y, at -> target_Z, at -> target_Orientation);
     player -> SaveToDB(false, false);
 
